@@ -2,7 +2,6 @@ import requests
 import json
 import pandas as pd
 
-url = "https://api.fda.gov/drug/event.json?limit=5"
 
 response = requests.get(url)
 
@@ -18,17 +17,25 @@ df = pd.json_normalize(reports)
 #print(df.columns.tolist())
 print(f"Rows before explosion: {len(df)}")
 
-df = df.explode('patient.drug')
+drug_exploded_df = df.explode('patient.drug')
 print(f"Rows post explosion: {len(df)}")
 
 reports_df = df[['safetyreportid', 'receiptdate', 'patient.patientonsetage', 'patient.patientsex']].drop_duplicates(subset=['safetyreportid'])
-drugs_df = df[['safetyreportid', 'patient.drug']]
-
 print(f"Shape of reports_df: {reports_df.shape}")
+
+drugs_df = drug_exploded_df[['safetyreportid', 'patient.drug']]
 print(f"Shape of drugs_df: {drugs_df.shape}")
 
 drug_list = drugs_df['patient.drug'].tolist()
 flat_drugs = pd.json_normalize(drug_list) 
 flat_drugs['safetyreportid'] = drugs_df['safetyreportid'].values
+print(f"Drugs columns are: {flat_drugs.columns.tolist()}")
 
-print(flat_drugs.columns.tolist())
+reaction_exploded_df = df.explode('patient.reaction')
+reactions_df = reaction_exploded_df[['safetyreportid', 'patient.reaction']]
+print(f"Shape of reactions_df: {reactions_df.shape}")
+
+reaction_list = reactions_df['patient.reaction'].tolist()
+flat_reactions = pd.json_normalize(reaction_list)
+flat_reactions['safetyreportid'] = reactions_df['safetyreportid'].values
+print(f"Reactions columns are: {flat_reactions.columns.tolist()}")
