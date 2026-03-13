@@ -1,0 +1,5 @@
+pandas
+requests
+SQLAlchemy
+os
+json
