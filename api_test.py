@@ -2,7 +2,7 @@ import requests
 import json
 import pandas as pd
 
-
+url = "https://api.fda.gov/drug/event.json?limit=5"
 response = requests.get(url)
 
 print(response.status_code)

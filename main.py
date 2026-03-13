@@ -6,7 +6,7 @@ def run_pipeline():
     print("Starting FDA Adversse Events Pipeline...")
 
     print("Extracting...")
-    raw_data = extract.fetch_fda_data(1000)
+    raw_data = extract.fetch_fda_data(999)
 
     print("Transforming... ")
     reports, drugs, reactions = transform.process_fda_data(raw_data)
