@@ -3,7 +3,7 @@ import transform
 import load
 
 def run_pipeline():
-    print("Starting FDA Adversse Events Pipeline...")
+    print("Starting FDA Adverse Events Pipeline...")
 
     print("Extracting...")
     raw_data = extract.fetch_fda_data(999)
